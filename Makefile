@@ -6,21 +6,22 @@
 #	@./$(TARGET)
 #	@stack exec -- $(TARGET)
 
-TARGET = csv
-SRCS = $(wildcard *.hs app/*.hs src/*.hs)
+TARGET	:= csv
+SUBS	:= $(wildcard */)
+SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
-all:	check build exec
+all:	check build test exec
 
 check:	style lint tags
 
 style:	$(SRCS)
-	@stylish-haskell -c .stylish-haskell.yaml -i $(SRCS)
+	-stylish-haskell -c .stylish-haskell.yaml -i $(SRCS)
 
 lint:	$(SRCS)
-	@hlint $(SRCS) --git --color --show
+	-hlint $(SRCS) --git --color --show
 
 tags:	$(SRCS)
-	@hasktags --ctags --extendedctag $(SRCS)
+	-hasktags --ctags --extendedctag $(SRCS)
 
 build:	$(SRCS)
 	@stack build

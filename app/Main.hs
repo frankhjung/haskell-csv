@@ -2,7 +2,7 @@
 
 module Main(main) where
 
-import           CSV
+import           CSV (quoteParser, testString)
 
 --
 -- MAIN demo functions

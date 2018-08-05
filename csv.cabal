@@ -1,38 +1,49 @@
-name:                csv
-version:             0.1.0
-synopsis:            read from csv
-description:         Example project to read from a CSV file.
-homepage:            https://github.com/frankhjung/csv#readme
-license:             BSD3
-license-file:        LICENSE
-author:              Frank H Jung
-maintainer:          frankhjung@linux.com
-copyright:           Copyright © 2017-2018 Frank H Jung
-category:            education
-build-type:          Simple
-cabal-version:       >=1.10
-extra-source-files:  README.md
+name:                 csv
+version:              0.1.0
+synopsis:             read from csv
+description:          Example project to read from a CSV file.
+homepage:             https://github.com/frankhjung/csv#readme
+license:              BSD3
+license-file:         LICENSE
+author:               Frank H Jung
+maintainer:           frankhjung@linux.com
+copyright:            Copyright © 2017-2018 Frank H Jung
+category:             education
+build-type:           Simple
+cabal-version:        >=1.10
+extra-source-files:   README.md
 
 source-repository head
-  type:             git
-  location:         git@github.com:frankhjung/haskell-csv.git
+  type:               git
+  location:           git@github.com:frankhjung/haskell-csv.git
 
 executable csv
-  hs-source-dirs:    app
-  main-is:           Main.hs
-  default-language:  Haskell2010
-  ghc-options:      -Wall
-                    -threaded
-  build-depends:     base >= 4.10.1 && < 5.0
-                   , csv
+  hs-source-dirs:     app
+  main-is:            Main.hs
+  default-language:   Haskell2010
+  ghc-options:       -Wall
+                     -threaded
+  build-depends:      base          >= 4.10.1 && < 5.0
+                    , csv
 
 library
-  default-language: Haskell2010
-  hs-source-dirs:   src
-  exposed-modules:  CSV
-  ghc-options:      -Wall
-  build-depends:    attoparsec         >= 0.13.2 && < 0.14
-                  , base               >= 4.10.1 && < 5.0
-                  , text               >= 1.2.3 && < 1.3
-                  , time               >= 1.8.0 && < 1.9
+  default-language:   Haskell2010
+  hs-source-dirs:     src
+  exposed-modules:    CSV
+  ghc-options:       -Wall
+  build-depends:      attoparsec    >= 0.13.2 && < 0.14
+                    , base          >= 4.10.1 && < 5.0
+                    , text          >= 1.2.3 && < 1.3
+                    , time          >= 1.8.0 && < 1.9
+
+test-suite test
+  hs-source-dirs:     test
+  main-is:            Spec.hs
+  default-language:   Haskell2010
+  type:               exitcode-stdio-1.0
+  build-depends:      base          >= 4.10.1 && < 5
+                    , hspec         >= 2.5
+                    , csv
+  ghc-options:       -Wall
+                     -threaded
 
