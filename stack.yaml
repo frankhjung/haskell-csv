@@ -1,0 +1,7 @@
+flags: {}
+packages:
+- .
+extra-deps:
+- attoparsec-0.13.2.2
+- old-locale-1.0.0.7
+resolver: lts-12.4
