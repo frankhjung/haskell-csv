@@ -2,10 +2,10 @@
 
 module Main(main) where
 
-import           CSV (Quote)
+import           CSV
 
 --
 -- MAIN demo functions
 --
 main :: IO ()
-main = putStrLn "hello world"
+main = print $ quoteParser testString

@@ -4,23 +4,22 @@ module CSV (
               Quote(..)
             , csvFile
             , quote
+            , quoteParser
+            , testString
            ) where
 
-import           Control.Applicative
 import           Data.Attoparsec.Combinator
 import           Data.Attoparsec.Text
 import           Data.Functor
 import           Data.Maybe
 import           Data.Text
 import           Data.Time
-import           System.Locale
 
 csvFile :: Parser [Quote]
 csvFile = many1 quote <* endOfInput
 
 data Quote = Quote {
               qDate   :: LocalTime,
-              qCode   :: String,
               qShares :: Double,
               qBasis  :: Double,
               qPrice  :: Double
@@ -28,7 +27,6 @@ data Quote = Quote {
 
 quote   :: Parser Quote
 quote   = Quote <$> (qdate <* qcomma)
-                <*> (string <* qcomma)
                 <*> (double <* qcomma)
                 <*> (double <* qcomma)
                 <*> (double <* endOfLine)
@@ -38,9 +36,13 @@ qcomma  = char ',' Data.Functor.$> ()
 
 qdate   :: Parser LocalTime
 qdate   = createDate <$> takeTill (== ',')
-    where   defaultDate = Data.Time.iso8601DateFormat
-            parseTimeText d = parseTime Data.Time.defaultTimeLocale "%Y-%m-%d" (unpack d)
-            createDate x = fromMaybe defaultDate $ parseTimeText x
+    where   defaultDate = LocalTime (fromGregorian 0001 01 01) (TimeOfDay 00 00 00 )
+            parseDateText t = parseTimeM True Data.Time.defaultTimeLocale (iso8601DateFormat Nothing) (unpack t)
+            createDate x = fromMaybe defaultDate $ parseDateText x
 
+quoteParser :: Text -> Either String Quote
 quoteParser = parseOnly quote
+
+testString :: Text
+testString = "2018-08-05,100,23.4,25.6\n"
 
