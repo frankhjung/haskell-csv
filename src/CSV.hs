@@ -1,10 +1,27 @@
 {-# LANGUAGE OverloadedStrings #-}
 
+{-|
+  Module      : CSV
+  Description : Parse a CSV file.
+  Copyright   : © Frank Jung, 2018
+  License     : GPL-3
+  Maintainer  : frankhjung@linux.com
+  Stability   : stable
+  Portability : portable
+
+  Example project to parse a CSV file using the
+  [attoparsec](http://hackage.haskell.org/package/attoparsec) package.
+
+-}
+
 module CSV  (
+              -- * Types
               Quote(..)
+              -- * Parser Functions
             , csvFile
             , quote
             , quoteParser
+              -- * Unit Test Data
             , testString
             , testQuote
             ) where
@@ -15,7 +32,7 @@ import           Data.Attoparsec.Text             (Parser, char, double,
                                                    endOfLine, parseOnly,
                                                    takeTill)
 import qualified Data.Attoparsec.Text             as DAT (takeWhile)
-import qualified Data.Functor                     as DF (($>))
+import           Data.Functor                     (($>))
 import           Data.Maybe                       (fromMaybe)
 import           Data.Text                        (Text, unpack)
 import           Data.Time                        (LocalTime (..),
@@ -25,7 +42,7 @@ import           Data.Time                        (LocalTime (..),
                                                    iso8601DateFormat,
                                                    parseTimeM)
 
--- stock quotes
+-- | Stock Quotes
 data Quote = Quote  {
                       qDate   :: LocalTime,
                       qStock  :: Text,
@@ -34,11 +51,11 @@ data Quote = Quote  {
                       qPrice  :: Double
                     } deriving (Show, Eq)
 
--- read stock quotes from CSV file
+-- | Read stock quotes from CSV file.
 csvFile :: Parser [Quote]
 csvFile = many1 quote <* endOfInput
 
--- parser stock quotes
+-- | Stock quotes parser.
 quote :: Parser Quote
 quote = Quote <$> (qdate  <* qsep)
               <*> (qcode  <* qsep)
@@ -46,30 +63,31 @@ quote = Quote <$> (qdate  <* qsep)
               <*> (double <* qsep)
               <*> (double <* endOfLine)
 
--- CSV field separator
+-- | CSV field separator.
+-- The default used here is the comma (U+2C).
 qsep :: Parser ()
-qsep = char ',' DF.$> ()
+qsep = char ',' Data.Functor.$> ()
 
--- parse code
+-- | Parse stock code.
 qcode :: Parser Text
 qcode = DAT.takeWhile isAlpha_ascii
 
--- parse ISO Date (YYYY-MM-DD)
+-- | Parse ISO Date (YYYY-MM-DD).
 qdate  :: Parser LocalTime
 qdate  = createDate <$> takeTill (== ',')
          where defaultDate = LocalTime (fromGregorian 0001 01 01) (TimeOfDay 00 00 00 )
                parseDateText t = parseTimeM True Data.Time.defaultTimeLocale (iso8601DateFormat Nothing) (unpack t)
                createDate x = fromMaybe defaultDate $ parseDateText x
 
--- parser for stock quotes
+-- | Parser for stock quotes.
 quoteParser :: Text -> Either String Quote
 quoteParser = parseOnly quote
 
--- unit testing Text input string
+-- | [Unit testing](https://hspec.github.io/) Text input string.
 testString :: Text
 testString = "2018-08-05,ASX,100,23.4,25.6\n"
 
--- unit testing Quote
+-- | [Unit testing](https://hspec.github.io/) Quote.
 testQuote :: Quote
 testQuote = Quote {
                     qDate   = LocalTime (fromGregorian 2018 08 05) (TimeOfDay 00 00 00),

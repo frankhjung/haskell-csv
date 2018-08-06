@@ -6,8 +6,10 @@ SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
 ARGS	?= -h
 
-all:	check build test
+.PHONY: all
+all:	check build test docs run
 
+.PHONY: check
 check:	style lint tags
 	@cabal check
 
@@ -23,18 +25,24 @@ tags:	$(SRCS)
 build:	$(SRCS)
 	@cabal build
 
-test:	$(SRCS)
+.PHONY: test
+test:
 	@cabal test
 
-exec:	build
-	@cabal exec $(TARGET) -- $(ARGS)
+.PHONY: doc
+docs:
+	@cabal doctest
+	@cabal haddock
 
-run:	build
+.PHONY: run
+run:
 	@cabal run $(TARGET) -- $(ARGS)
 
-copy:	build
+.PHONY: copy
+copy:
 	@cabal copy
 
+.PHONY: ghci
 ghci:
 	-ghci -Wno-type-defaults
 

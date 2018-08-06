@@ -35,7 +35,7 @@ exec:	build
 bench:	build
 	@stack bench
 
-docs:	build
+doc:	build
 	@stack haddock
 
 install:
