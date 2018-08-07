@@ -48,8 +48,10 @@ ghci:
 
 clean:
 	@cabal clean
+	@stack clean
 
 cleanall: clean
 	@$(RM) -rf ./dist
 	@$(RM) -rf $(patsubst %.hs, %.hi, $(SRCS))
 	@$(RM) -rf $(patsubst %.hs, %.o, $(SRCS))
+	@$(RM) -rf .stack-work/
