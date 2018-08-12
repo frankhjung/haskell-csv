@@ -7,25 +7,29 @@ import           CSV                (quoteTextParser)
 import           Data.Either        (rights)
 import           Data.Text          (lines)
 import           Data.Text.IO       (readFile)
-import qualified System.Environment (getArgs, getProgName)
-import qualified System.Exit        (die)
+import           Prelude            hiding (lines, readFile)
+import           System.Environment (getArgs, getProgName)
+import           System.Exit        (die)
 
 -- Usage with current program name and command arguments
 usage :: IO ()
 usage = do
-  progName <- System.Environment.getProgName
-  System.Exit.die $ concat ["Usage: ", progName, " <csv file>\nError: Require file name"]
+  progName <- getProgName
+  die $ concat ["Usage: ", progName, " <csv file>\nError: Require file name"]
 
 --
 -- MAIN demostrate parsing a CSV file
+-- TODO simplify by
+-- (1) providing a quoteFileParser function FilePath -> [Quotes]
+-- (2) letting quoteTextParser work with [Text] -> [Either String Quote]
 --
 main :: IO ()
 main = do
 
-    args <- System.Environment.getArgs
+    args <- getArgs
     when (length args /= 1) usage
 
-    csvData <- Data.Text.IO.readFile (head args)
+    csvData <- readFile (head args)
     -- returns an list of quotes
-    print $ rights $ map quoteTextParser $ (tail . Data.Text.lines) csvData
+    print $ rights $ map quoteTextParser $ (tail . lines) csvData
 
