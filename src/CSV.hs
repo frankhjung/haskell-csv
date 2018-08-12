@@ -18,20 +18,18 @@ module CSV  (
               -- * Types
               Quote(..)
               -- * Parser Functions
-            , csvFile
             , quote
-            , quoteParser
+            , quoteTextParser
               -- * Unit Test Data
             , testString
             , testQuote
             ) where
 
 import           Data.Attoparsec.ByteString.Char8 (isAlpha_ascii)
-import           Data.Attoparsec.Combinator       (endOfInput, many1)
 import           Data.Attoparsec.Text             (Parser, char, double,
-                                                   endOfLine, parseOnly,
+                                                   endOfInput, parseOnly,
                                                    takeTill)
-import qualified Data.Attoparsec.Text             as DAT (takeWhile)
+import qualified Data.Attoparsec.Text             (takeWhile)
 import           Data.Functor                     (($>))
 import           Data.Maybe                       (fromMaybe)
 import           Data.Text                        (Text, unpack)
@@ -51,9 +49,9 @@ data Quote = Quote  {
                       qPrice  :: Double
                     } deriving (Show, Eq)
 
--- | Read stock quotes from CSV file.
-csvFile :: Parser [Quote]
-csvFile = many1 quote <* endOfInput
+-- | Parser for stock quotes.
+quoteTextParser :: Text -> Either String Quote
+quoteTextParser = parseOnly quote
 
 -- | Stock quotes parser.
 quote :: Parser Quote
@@ -61,7 +59,7 @@ quote = Quote <$> (qdate  <* qsep)
               <*> (qcode  <* qsep)
               <*> (double <* qsep)
               <*> (double <* qsep)
-              <*> (double <* endOfLine)
+              <*> (double <* endOfInput)
 
 -- | CSV field separator.
 -- The default used here is the comma (U+2C).
@@ -70,7 +68,7 @@ qsep = char ',' Data.Functor.$> ()
 
 -- | Parse stock code.
 qcode :: Parser Text
-qcode = DAT.takeWhile isAlpha_ascii
+qcode = Data.Attoparsec.Text.takeWhile isAlpha_ascii
 
 -- | Parse ISO Date (YYYY-MM-DD).
 qdate  :: Parser LocalTime
@@ -79,13 +77,9 @@ qdate  = createDate <$> takeTill (== ',')
                parseDateText t = parseTimeM True Data.Time.defaultTimeLocale (iso8601DateFormat Nothing) (unpack t)
                createDate x = fromMaybe defaultDate $ parseDateText x
 
--- | Parser for stock quotes.
-quoteParser :: Text -> Either String Quote
-quoteParser = parseOnly quote
-
 -- | [Unit testing](https://hspec.github.io/) Text input string.
 testString :: Text
-testString = "2018-08-05,ASX,100,23.4,25.6\n"
+testString = "2018-08-05,ASX,100,23.4,25.6"
 
 -- | [Unit testing](https://hspec.github.io/) Quote.
 testQuote :: Quote

@@ -1,10 +1,10 @@
-import           CSV        (quoteParser, testQuote, testString)
+import           CSV        (quoteTextParser, testQuote, testString)
 
 import           Test.Hspec (describe, hspec, it, shouldBe)
 
 main :: IO ()
 main = hspec $
 
-  describe "quoteParser" $
+  describe "quoteTextParser" $
     it "returns an instance of Quote" $
-      quoteParser testString `shouldBe` Right testQuote
+      quoteTextParser testString `shouldBe` Right testQuote

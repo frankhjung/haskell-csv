@@ -10,6 +10,8 @@ TARGET	:= csv
 SUBS	:= $(wildcard */)
 SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
+ARGS	?= "files/asx.csv"
+
 all:	check build test exec
 
 check:	style lint tags
@@ -30,7 +32,7 @@ test:	$(SRCS)
 	@stack test
 
 exec:	build
-	@stack exec $(TARGET)
+	@stack exec $(TARGET) -- $(ARGS)
 
 bench:	build
 	@stack bench

@@ -4,13 +4,13 @@ TARGET	:= csv
 SUBS	:= $(wildcard */)
 SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
-ARGS	?= -h
+ARGS	?= "files/asx.csv"
 
 .PHONY: all
 all:	check build test docs run
 
 .PHONY: check
-check:	style lint tags
+check:	style tags lint
 	@cabal check
 
 style:	$(SRCS)
@@ -46,10 +46,12 @@ copy:
 ghci:
 	-ghci -Wno-type-defaults
 
+.PHONY: clean
 clean:
 	@cabal clean
 	@stack clean
 
+.PHONY: cleanall
 cleanall: clean
 	@$(RM) -rf ./dist
 	@$(RM) -rf $(patsubst %.hs, %.hi, $(SRCS))
