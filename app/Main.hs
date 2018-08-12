@@ -11,13 +11,10 @@ import qualified System.Environment (getArgs, getProgName)
 import qualified System.Exit        (die)
 
 -- Usage with current program name and command arguments
-usage :: Maybe String -> IO ()
-usage s = do
+usage :: IO ()
+usage = do
   progName <- System.Environment.getProgName
-  let usageMessage = "Usage: " ++ progName ++ " <csv file>\n"
-  case s of
-    Nothing -> System.Exit.die usageMessage
-    Just e  -> System.Exit.die (usageMessage ++ e)
+  System.Exit.die $ concat ["Usage: ", progName, " <csv file>\nError: Require file name"]
 
 --
 -- MAIN demostrate parsing a CSV file
@@ -26,11 +23,9 @@ main :: IO ()
 main = do
 
     args <- System.Environment.getArgs
-
-    when (length args /= 1) $ usage (Just "Require file name")
+    when (length args /= 1) usage
 
     csvData <- Data.Text.IO.readFile (head args)
-
-    -- returns an list of quotes, same as:
+    -- returns an list of quotes
     print $ rights $ map quoteTextParser $ (tail . Data.Text.lines) csvData
 
