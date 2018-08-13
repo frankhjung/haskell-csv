@@ -20,6 +20,8 @@ module CSV  (
               -- * Parser Functions
             , quote
             , quoteTextParser
+            , quotes
+            , quoteListParser
               -- * Unit Test Data
             , testString
             , testQuote
@@ -27,8 +29,8 @@ module CSV  (
 
 import           Data.Attoparsec.ByteString.Char8 (isAlpha_ascii)
 import           Data.Attoparsec.Text             (Parser, char, double,
-                                                   endOfInput, parseOnly,
-                                                   takeTill)
+                                                   endOfInput, endOfLine, many1,
+                                                   parseOnly, takeTill)
 import qualified Data.Attoparsec.Text             (takeWhile)
 import           Data.Functor                     (($>))
 import           Data.Maybe                       (fromMaybe)
@@ -49,20 +51,31 @@ data Quote = Quote  {
                       qPrice  :: Double
                     } deriving (Show, Eq)
 
--- | Parser for stock quotes.
-quoteTextParser :: Text -> Either String Quote
-quoteTextParser = parseOnly quote
-
 -- | Stock quotes parser.
 quote :: Parser Quote
 quote = Quote <$> (qdate  <* qsep)
               <*> (qcode  <* qsep)
               <*> (double <* qsep)
               <*> (double <* qsep)
-              <*> (double <* endOfInput)
+              <*> (double <* endOfLine)
+
+-- | Parser wrapper for a single stock quote.
+quoteTextParser :: Text -> Either String Quote
+quoteTextParser = parseOnly quote
+
+-- | Parser for a list of stock quotes.
+quotes :: Parser [Quote]
+quotes = do
+  q <- many1 quote
+  endOfInput
+  return q
+
+-- | Parser wrapper for a list of stock quotes.
+quoteListParser :: Text -> Either String [Quote]
+quoteListParser = parseOnly quotes
 
 -- | CSV field separator.
--- The default used here is the comma (U+2C).
+-- The default used here is the comma, (U+2C).
 qsep :: Parser ()
 qsep = char ',' Data.Functor.$> ()
 
@@ -79,7 +92,7 @@ qdate  = createDate <$> takeTill (== ',')
 
 -- | [Unit testing](https://hspec.github.io/) Text input string.
 testString :: Text
-testString = "2018-08-05,ASX,100,23.4,25.6"
+testString = "2018-08-05,ASX,100,23.4,25.6\n"
 
 -- | [Unit testing](https://hspec.github.io/) Quote.
 testQuote :: Quote
