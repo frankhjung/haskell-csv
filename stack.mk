@@ -41,8 +41,8 @@ ghci:
 	@stack ghci --ghci-options -Wno-type-defaults
 
 clean:
+	@cabal clean
 	@stack clean
-	@$(RM) -rf dist
 
 cleanall: clean
 	@$(RM) -rf .stack-work/

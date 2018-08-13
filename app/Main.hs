@@ -13,4 +13,4 @@ main = do
 
   _ <- Data.Text.IO.getLine           -- skip header line
   csvData <- Data.Text.IO.getContents -- process remainder of file
-  print $ quoteListParser csvData
+  print (quoteListParser csvData)     -- show quotes (right)

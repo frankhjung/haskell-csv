@@ -51,3 +51,7 @@ documentation, run
 make doc
 ```
 
+This produces HTML pages. Here is the synopsis page:
+
+![haskell-csv synopsis](files/csv-haddock-docs.png)
+
