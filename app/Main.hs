@@ -2,10 +2,8 @@
 
 module Main(main) where
 
-import           CSV                (quoteListParser)
-import qualified Data.Text.IO       (readFile)
-import           System.Environment (getArgs, getProgName)
-import           System.Exit        (die)
+import           CSV          (quoteListParser)
+import qualified Data.Text.IO (getContents, getLine)
 
 --
 -- MAIN demostrate parsing a CSV file
@@ -13,12 +11,6 @@ import           System.Exit        (die)
 main :: IO ()
 main = do
 
-    args <- getArgs
-    if length args == 1
-      then do
-        csvData <- Data.Text.IO.readFile (head args)
-        print $ quoteListParser csvData
-      else do
-        progName <- getProgName
-        die $ concat ["Usage: ", progName, " <csv file>\n", "Error: Require file name"]
-
+  _ <- Data.Text.IO.getLine           -- skip header line
+  csvData <- Data.Text.IO.getContents -- process remainder of file
+  print $ quoteListParser csvData

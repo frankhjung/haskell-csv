@@ -1,16 +1,10 @@
 #!/usr/bin/env make
 
-# build
-#	@ghc -Wall -O2 --make $(SRCS)
-# run
-#	@./$(TARGET)
-#	@stack exec -- $(TARGET)
-
 TARGET	:= csv
 SUBS	:= $(wildcard */)
 SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
-ARGS	?= "files/asx.csv"
+ARGS	?= '-'
 
 all:	check build test exec
 
@@ -32,7 +26,7 @@ test:	$(SRCS)
 	@stack test
 
 exec:	build
-	@stack exec $(TARGET) -- $(ARGS)
+	@cat "files/asx.csv" | stack exec $(TARGET) -- $(ARGS)
 
 bench:	build
 	@stack bench
