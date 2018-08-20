@@ -22,7 +22,7 @@ tags:	$(SRCS)
 build:	$(SRCS)
 	@stack build
 
-test:	$(SRCS)
+test:	build
 	@stack test
 
 exec:	build

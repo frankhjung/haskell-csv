@@ -1,16 +1,15 @@
-{-# LANGUAGE UnicodeSyntax #-}
-
 module Main(main) where
 
-import           CSV          (quoteListParser)
+import qualified CSV          (quoteListParser)
 import qualified Data.Text.IO (getContents, getLine)
 
 --
--- MAIN demostrate parsing a CSV file
+-- MAIN demostrate parsing a CSV file.
+-- It should return a list of Quotes.
 --
 main :: IO ()
 main = do
 
   _ <- Data.Text.IO.getLine           -- skip header line
   csvData <- Data.Text.IO.getContents -- process remainder of file
-  print (quoteListParser csvData)     -- show quotes (right)
+  either (error "no quotes") print (CSV.quoteListParser csvData)
