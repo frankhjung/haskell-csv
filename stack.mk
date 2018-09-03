@@ -35,7 +35,7 @@ doc:	build
 	@stack haddock
 
 install:
-	@stack install --local-bin-path $(HOME)/bin $(TARGET)
+	@stack install --local-bin-path $(HOME)/bin
 
 ghci:
 	@stack ghci --ghci-options -Wno-type-defaults
