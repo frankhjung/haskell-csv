@@ -12,4 +12,4 @@ main = do
 
   _ <- Data.Text.IO.getLine           -- skip header line
   csvData <- Data.Text.IO.getContents -- process remainder of file
-  either (error "no quotes") print (CSV.quoteListParser csvData)
+  either (error "no quotes") (mapM_ print) (CSV.quoteListParser csvData)
