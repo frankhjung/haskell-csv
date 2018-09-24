@@ -40,6 +40,9 @@ install:
 ghci:
 	@stack ghci --ghci-options -Wno-type-defaults
 
+jupyter:
+	@stack exec jupyter -- notebook
+
 clean:
 	@cabal clean
 	@stack clean
