@@ -1,41 +1,49 @@
 #!/usr/bin/env make
 
+.PHONY: build check tags style lint test exec bench doc install setup jupyter ghci clean cleanall
+
 TARGET	:= csv
 SUBS	:= $(wildcard */)
 SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
 ARGS	?= '-'
 
-all:	check build test exec
+build:
+	@stack build --pedantic --no-test --ghc-options='-O2'
 
-check:	style lint tags
+all:	check build test doc exec
 
-style:	$(SRCS)
-	-stylish-haskell -c .stylish-haskell.yaml -i $(SRCS)
+check:	tags style lint
 
-lint:	$(SRCS)
-	-hlint $(SRCS) --git --color --show
+tags:
+	@hasktags --ctags --extendedctag $(SRCS)
 
-tags:	$(SRCS)
-	-hasktags --ctags --extendedctag $(SRCS)
+style:
+	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRCS)
 
-build:	$(SRCS)
-	@stack build
+lint:
+	@hlint $(SRCS)
 
-test:	build
-	@stack test
+test:
+	@stack test --coverage
 
-exec:	build
-	@cat "files/asx.csv" | stack exec $(TARGET) -- $(ARGS)
+exec:
+	@cat "files/asx.csv" | stack exec $(TARGET) -- $(ARGS) +RTS -s
 
-bench:	build
-	@stack bench
+bench:
+	@stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
 
-doc:	build
+doc:
 	@stack haddock
 
 install:
 	@stack install --local-bin-path $(HOME)/bin
+
+setup:
+	-stack setup
+	-stack build --dependencies-only --test --no-run-tests
+	-stack query
+	-stack ls dependencies
 
 ghci:
 	@stack ghci --ghci-options -Wno-type-defaults
@@ -44,8 +52,8 @@ jupyter:
 	@stack exec jupyter -- notebook
 
 clean:
-	@cabal clean
 	@stack clean
+	@$(RM) -rf $(TARGET).tix
 
 cleanall: clean
 	@$(RM) -rf .stack-work/

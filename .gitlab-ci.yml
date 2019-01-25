@@ -1,0 +1,34 @@
+image:
+  name: haskell:8.4.4
+  entrypoint: [""]
+
+before_script:
+  - apt-get update -qq && apt-get install -y -qq hasktags hlint stylish-haskell
+
+stages:
+  - all
+
+variables:
+  RTSOPTS: "+RTS -N1"
+  STACK_ROOT: "${CI_PROJECT_DIR}/.stack"
+
+cache:
+  key: csv-cache
+  paths:
+    - .stack
+    - .stack-work
+
+all:
+  stage: all
+  script:
+    - make clean setup
+    - make check build
+    - make test
+    - make bench
+    - make doc
+    - make exec
+  artifacts:
+    paths:
+      - .stack-work/benchmark.html
+      - .stack-work/dist
+      - .stack-work/install
