@@ -1,59 +1,50 @@
 #!/usr/bin/env make
 
-TARGET	:= csv
+.PHONY: build check tags style lint test exec bench doc install setup jupyter ghci clean cleanall
+
+TARGET	:= quotescsv
 SUBS	:= $(wildcard */)
 SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
-ARGS	?= "files/asx.csv"
+ARGS	?= '-'
 
-.PHONY: all
-all:	check build test docs run
+default: check build test
 
-.PHONY: check
-check:	style tags lint
-	@cabal check
+all:	check build test doc exec
 
-style:	$(SRCS)
-	-stylish-haskell -c .stylish-haskell.yaml -i $(SRCS)
+check:	tags style lint
 
-lint:	$(SRCS)
-	-hlint --color $(SRCS)
+tags:
+	@hasktags --ctags --extendedctag $(SRCS)
 
-tags:	$(SRCS)
-	-hasktags --ctags $(SRCS)
+style:
+	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRCS)
 
-build:	$(SRCS)
-	@cabal build
+lint:
+	@hlint $(SRCS)
 
-.PHONY: test
+build:
+	@cabal new-build
+
 test:
-	@cabal test
+	@cabal new-test
 
-.PHONY: doc
-docs:
-	@cabal doctest
-	@cabal haddock
 
-.PHONY: run
-run:
-	@cabal run $(TARGET) -- $(ARGS)
+exec:
+	@cat "files/asx.csv" | cabal new-run $(TARGET) -- $(ARGS) +RTS -s
 
-.PHONY: copy
-copy:
-	@cabal copy
+doc:
+	@cabal new-haddock
 
-.PHONY: ghci
-ghci:
-	-ghci -Wno-type-defaults
+# install:
+# 	@cabal new-install --installdir=$(HOME)/bin --install-method=copy
 
-.PHONY: clean
 clean:
 	@cabal clean
-	@stack clean
 
-.PHONY: cleanall
 cleanall: clean
-	@$(RM) -rf ./dist
+	@cabal new-clean
+	@$(RM) -rf $(TARGET).tix stack.yaml.lock dist/
 	@$(RM) -rf $(patsubst %.hs, %.hi, $(SRCS))
 	@$(RM) -rf $(patsubst %.hs, %.o, $(SRCS))
-	@$(RM) -rf .stack-work/
+

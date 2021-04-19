@@ -1,7 +1,9 @@
+---
+
 arch: x86_64
-system-ghc: true
-resolver: lts-13.25
+system-ghc: false
+resolver: lts-14.27
 allow-newer: false
 flags: {}
 packages: ['.']
-extra-deps: ['hspec-2.6.1', 'QuickCheck-2.12.6.1', 'text-1.2.3.1']
+extra-deps: ['hspec-2.7.1', 'QuickCheck-2.13.2', 'text-1.2.3.1']

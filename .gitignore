@@ -1,9 +1,12 @@
 dist
+dist-newstyle/
 .dyn_hi
 *.dyn_o
 *.hi
+*.lock
 *.o
 scrapbook
 .stack-work/
 .*.swp
 tags
+*.tix
