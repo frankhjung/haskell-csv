@@ -1,8 +1,7 @@
 #!/usr/bin/env make
 
-.PHONY: build check tags style lint test exec bench doc install setup jupyter ghci clean cleanall
+.PHONY: build check tags style lint test exec doc setup clean cleanall
 
-TARGET	:= quotescsv
 SUBS	:= $(wildcard */)
 SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
@@ -29,22 +28,18 @@ build:
 test:
 	@cabal new-test
 
-
 exec:
-	@cat "files/asx.csv" | cabal new-run $(TARGET) -- $(ARGS) +RTS -s
+	@cat "files/asx.csv" | cabal new-run example -- $(ARGS) +RTS -s
 
 doc:
 	@cabal new-haddock
-
-# install:
-# 	@cabal new-install --installdir=$(HOME)/bin --install-method=copy
 
 clean:
 	@cabal clean
 
 cleanall: clean
 	@cabal new-clean
-	@$(RM) -rf $(TARGET).tix stack.yaml.lock dist/
+	@$(RM) -rf *.tix dist/ dist-new/
 	@$(RM) -rf $(patsubst %.hs, %.hi, $(SRCS))
 	@$(RM) -rf $(patsubst %.hs, %.o, $(SRCS))
 

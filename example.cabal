@@ -1,9 +1,9 @@
-name:                 quotescsv
+name:                 example
 version:              0.4.0
 synopsis:             read from csv
-description:          Example project to read from a CSV file.
-homepage:             https://github.com/frankhjung/csv#readme
-license:              BSD3
+description:          Example project to read from a CSV file using Attoparsec.
+homepage:             https://github.com/frankhjung/haskell-csv#readme
+license:              GPL-3
 license-file:         LICENSE
 author:               Frank H Jung
 maintainer:           frankhjung@linux.com
@@ -17,13 +17,13 @@ source-repository     head
   type:               git
   location:           git@github.com:frankhjung/haskell-csv.git
 
-executable            quotescsv
+executable            example
   hs-source-dirs:     app
-  main-is:            ExampleAttoparsec.hs
+  main-is:            Main.hs
   default-language:   Haskell2010
   ghc-options:       -Wall -threaded
   build-depends:      base
-                    , quotescsv
+                    , example
                     , text
 
 library
@@ -42,7 +42,7 @@ test-suite            test
   default-language:   Haskell2010
   type:               exitcode-stdio-1.0
   build-depends:      base
-                    , quotescsv
+                    , example
                     , hspec
                     , text
                     , time
