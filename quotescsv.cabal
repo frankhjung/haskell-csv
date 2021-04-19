@@ -1,5 +1,5 @@
-name:                 csv
-version:              0.3.0
+name:                 quotescsv
+version:              0.4.0
 synopsis:             read from csv
 description:          Example project to read from a CSV file.
 homepage:             https://github.com/frankhjung/csv#readme
@@ -7,44 +7,44 @@ license:              BSD3
 license-file:         LICENSE
 author:               Frank H Jung
 maintainer:           frankhjung@linux.com
-copyright:            Copyright © 2017-2018 Frank H Jung
+copyright:            Copyright © 2017-2021 Frank H Jung
 category:             education
 build-type:           Simple
 cabal-version:        >=1.10
 extra-source-files:   README.md
 
-source-repository head
+source-repository     head
   type:               git
   location:           git@github.com:frankhjung/haskell-csv.git
 
-executable csv
+executable            quotescsv
   hs-source-dirs:     app
-  main-is:            Main.hs
+  main-is:            ExampleAttoparsec.hs
   default-language:   Haskell2010
-  ghc-options:       -Wall
-                     -threaded
+  ghc-options:       -Wall -threaded
   build-depends:      base
-                    , csv
+                    , quotescsv
                     , text
 
 library
   default-language:   Haskell2010
   hs-source-dirs:     src
-  exposed-modules:    CSV
+  exposed-modules:    QuotesCSV
   ghc-options:       -Wall
   build-depends:      attoparsec
                     , base
                     , text
                     , time
 
-test-suite test
+test-suite            test
   hs-source-dirs:     test
   main-is:            Spec.hs
   default-language:   Haskell2010
   type:               exitcode-stdio-1.0
   build-depends:      base
+                    , quotescsv
                     , hspec
-                    , csv
-  ghc-options:       -Wall
-                     -threaded
+                    , text
+                    , time
+  ghc-options:       -Wall -threaded
 

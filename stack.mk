@@ -2,14 +2,13 @@
 
 .PHONY: build check tags style lint test exec bench doc install setup jupyter ghci clean cleanall
 
-TARGET	:= csv
+TARGET	:= quotescsv
 SUBS	:= $(wildcard */)
 SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
 ARGS	?= '-'
 
-build:
-	@stack build --pedantic --no-test --ghc-options='-O2'
+default: check build test
 
 all:	check build test doc exec
 
@@ -24,6 +23,9 @@ style:
 lint:
 	@hlint $(SRCS)
 
+build:
+	@stack build --pedantic --no-test
+
 test:
 	@stack test --coverage
 
@@ -36,24 +38,18 @@ bench:
 doc:
 	@stack haddock
 
-install:
-	@stack install --local-bin-path $(HOME)/bin
+# install:
+# 	@stack install --local-bin-path $(HOME)/bin
 
 setup:
 	-stack setup
 	-stack build --dependencies-only --test --no-run-tests
 	-stack query
-	-stack ls dependencies
-
-ghci:
-	@stack ghci --ghci-options -Wno-type-defaults
-
-jupyter:
-	@stack exec jupyter -- notebook
+	#stack ls dependencies
 
 clean:
 	@stack clean
-	@$(RM) -rf $(TARGET).tix
+	@$(RM) -rf $(TARGET).tix stack.yaml.lock
 
 cleanall: clean
 	@$(RM) -rf .stack-work/
