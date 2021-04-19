@@ -16,8 +16,9 @@ build:
     entrypoint: [""]
   stage: build
   script:
-    - make setup clean check build test doc
+    - make clean setup check build test doc
     - mv $(stack path --local-doc-root) public/
+    - make exec
   artifacts:
     paths:
       - public

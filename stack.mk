@@ -1,8 +1,7 @@
 #!/usr/bin/env make
 
-.PHONY: build check tags style lint test exec bench doc install setup jupyter ghci clean cleanall
+.PHONY: build check tags style lint test exec doc setup clean cleanall
 
-TARGET	:= quotescsv
 SUBS	:= $(wildcard */)
 SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
@@ -30,16 +29,10 @@ test:
 	@stack test --coverage
 
 exec:
-	@cat "files/asx.csv" | stack exec $(TARGET) -- $(ARGS) +RTS -s
-
-bench:
-	@stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
+	@cat "files/asx.csv" | stack exec quotescsv -- $(ARGS) +RTS -s
 
 doc:
 	@stack haddock
-
-# install:
-# 	@stack install --local-bin-path $(HOME)/bin
 
 setup:
 	-stack setup
@@ -49,7 +42,7 @@ setup:
 
 clean:
 	@stack clean
-	@$(RM) -rf $(TARGET).tix stack.yaml.lock
+	@$(RM) -rf *.tix stack.yaml.lock
 
 cleanall: clean
-	@$(RM) -rf .stack-work/
+	@$(RM) -rf tags .stack-work/ dist-*/
