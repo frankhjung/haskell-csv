@@ -9,4 +9,3 @@ packages: ['.']
 extra-deps:
   - hspec-2.7.1
   - QuickCheck-2.13.2
-  - text-1.2.3.1

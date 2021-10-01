@@ -29,8 +29,8 @@ test:
 	@stack test --coverage
 
 exec:
-	@cat "files/asx.csv" | stack exec example
-	@#cat "files/asx.csv" | stack exec example -- $(ARGS) +RTS -s
+	@cat "files/asx.csv" | stack exec main
+	#cat "files/asx.csv" | stack exec main -- $(ARGS) +RTS -s
 
 doc:
 	@stack haddock

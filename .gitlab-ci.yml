@@ -5,8 +5,9 @@ stages:
   - deploy
 
 variables:
+  CABAL_CONFIG: ${CI_PROJECT_DIR}/.cabal/config
+  TARGET: QuotesCSV
   RTSOPTS: "+RTS -N1"
-  STACK_ROOT: ${CI_PROJECT_DIR}/.stack
 
 build:
   except:
@@ -16,17 +17,22 @@ build:
     entrypoint: [""]
   stage: build
   script:
-    - make clean setup check build test doc
-    - mv $(stack path --local-doc-root) public/
-    - make exec
+    - cabal user-config update
+    - make setup check build test doc exec
+    - mkdir -p public/ .cabal/
+    - cp -pr ./dist-newstyle/build/x86_64-linux/ghc*/QuotesCSV*/doc/html/QuotesCSV/* public/
   artifacts:
     paths:
       - public
   cache:
     key: ${CI_COMMIT_REF_NAME}-${CI_JOB_NAME}
     paths:
-      - .stack
-      - .stack-work
+      - cabal.project.local
+      - .cabal.config
+      - dist/
+      - dist-newstyle/
+      - .stack/
+      - .stack-work/
 
 pages:
   only:

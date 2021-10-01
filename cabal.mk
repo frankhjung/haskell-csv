@@ -29,7 +29,7 @@ test:
 	@cabal new-test
 
 exec:
-	@cat "files/asx.csv" | cabal new-run example -- $(ARGS) +RTS -s
+	@cat "files/asx.csv" | cabal new-run main -- $(ARGS) +RTS -s
 
 doc:
 	@cabal new-haddock
@@ -39,7 +39,7 @@ clean:
 
 cleanall: clean
 	@cabal new-clean
-	@$(RM) -rf *.tix dist/ dist-new/
+	@$(RM) -rf *.tix .cabal/ dist/ dist-new/ public/
 	@$(RM) -rf $(patsubst %.hs, %.hi, $(SRCS))
 	@$(RM) -rf $(patsubst %.hs, %.o, $(SRCS))
 
