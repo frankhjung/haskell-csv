@@ -17,9 +17,9 @@ build:
     entrypoint: [""]
   stage: build
   script:
+    - mkdir -p public/ .cabal/
     - cabal user-config update
     - make setup check build test doc exec
-    - mkdir -p public/ .cabal/
     - cp -pr ./dist-newstyle/build/x86_64-linux/ghc*/QuotesCSV*/doc/html/QuotesCSV/* public/
   artifacts:
     paths:
@@ -29,10 +29,7 @@ build:
     paths:
       - cabal.project.local
       - .cabal.config
-      - dist/
       - dist-newstyle/
-      - .stack/
-      - .stack-work/
 
 pages:
   only:

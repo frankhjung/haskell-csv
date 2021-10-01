@@ -34,12 +34,15 @@ exec:
 doc:
 	@cabal new-haddock
 
+setup:
+	@cabal new-update --only-dependencies
+
 clean:
 	@cabal clean
 
 cleanall: clean
-	@cabal new-clean
 	@$(RM) -rf *.tix .cabal/ dist/ dist-new/ public/
 	@$(RM) -rf $(patsubst %.hs, %.hi, $(SRCS))
 	@$(RM) -rf $(patsubst %.hs, %.o, $(SRCS))
+	@cabal new-clean
 
