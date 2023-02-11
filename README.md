@@ -17,14 +17,7 @@ The project can uses [Cabal](#cabal) and/or [Stack](#stack) to build.
 
 ### Cabal
 
-To build this project with Cabal:
-
-```bash
-cabal configure
-cabal build
-```
-
-I've wrapped Cabal commands with GNU make:
+This project uses Cabal, The Cabal commands are wrapped into [make](./cabal.mk):
 
 ```bash
 make -f cabal.mk [target]
@@ -34,21 +27,6 @@ As [cabal.mk](cabal.mk) is linked to [Makefile](Makefile) we can just call:
 
 ```bash
 make [target]
-```
-
-### Stack
-
-Initialise project and dependencies with:
-
-```bash
-stack update
-stack build
-```
-
-You can then use GNU make to build with:
-
-```bash
-make -f stack.mk [target]
 ```
 
 ## Haddock Documentation

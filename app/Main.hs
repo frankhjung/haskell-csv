@@ -4,8 +4,8 @@ import qualified Data.Text.IO (getContents, getLine)
 import qualified QuotesCSV    (quoteListParser)
 
 --
--- Demostrate parsing a CSV file.
--- It should return a list of Quotes.
+-- Demonstrate parsing a CSV file.
+-- It should return a list of ASX quotes.
 --
 main :: IO ()
 main = do

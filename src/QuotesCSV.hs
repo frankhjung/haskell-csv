@@ -1,7 +1,7 @@
 {-|
   Module      : QuotesCSV
   Description : Parse a CSV file containing stock quotes.
-  Copyright   : © Frank Jung, 2018-2021
+  Copyright   : © Frank Jung, 2018-2023
   License     : GPL-3
   Maintainer  : frankhjung@linux.com
   Stability   : stable

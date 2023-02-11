@@ -23,19 +23,19 @@ lint:
 	@hlint $(SRCS)
 
 build:
-	@cabal new-build
+	@cabal build
 
 test:
-	@cabal new-test
-
-exec:
-	@cat "files/asx.csv" | cabal new-run main -- $(ARGS) +RTS -s
+	@cabal test
 
 doc:
-	@cabal new-haddock
+	@cabal haddock
+
+exec:
+	@cat "files/asx.csv" | cabal run main -- $(ARGS) +RTS -s
 
 setup:
-	@cabal new-update --only-dependencies
+	@cabal update --only-dependencies
 
 clean:
 	@cabal clean
@@ -44,5 +44,4 @@ cleanall: clean
 	@$(RM) -rf *.tix .cabal/ dist/ dist-new/ public/
 	@$(RM) -rf $(patsubst %.hs, %.hi, $(SRCS))
 	@$(RM) -rf $(patsubst %.hs, %.o, $(SRCS))
-	@cabal new-clean
 
