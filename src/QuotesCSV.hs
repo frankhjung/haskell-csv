@@ -14,7 +14,7 @@
 
 module QuotesCSV  (
               -- * Types
-              Quote(..)
+              Quote (..)
               -- * Parser Functions
             , quote
             , quoteTextParser
@@ -80,7 +80,9 @@ qcode = Data.Attoparsec.Text.takeWhile isAlpha_ascii
 
 -- | Parse ISO Date (YYYY-MM-DD).
 qdate  :: Parser LocalTime
-qdate  = createDate <$> takeTill (== ',')
-         where defaultDate = LocalTime (fromGregorian 0001 01 01) (TimeOfDay 00 00 00 )
-               parseDateText t = parseTimeM True Data.Time.defaultTimeLocale (iso8601DateFormat Nothing) (unpack t)
-               createDate x = fromMaybe defaultDate $ parseDateText x
+qdate  =
+  createDate <$> takeTill (== ',')
+    where
+      defaultDate = LocalTime (fromGregorian 0001 01 01) (TimeOfDay 00 00 00 )
+      parseDateText t = parseTimeM True Data.Time.defaultTimeLocale (iso8601DateFormat Nothing) (unpack t)
+      createDate x = fromMaybe defaultDate $ parseDateText x

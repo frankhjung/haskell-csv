@@ -44,4 +44,3 @@ cleanall: clean
 	@$(RM) -rf *.tix .cabal/ dist/ dist-new/ public/
 	@$(RM) -rf $(patsubst %.hs, %.hi, $(SRCS))
 	@$(RM) -rf $(patsubst %.hs, %.o, $(SRCS))
-
