@@ -4,32 +4,27 @@ stages:
   - build
   - deploy
 
-variables:
-  RTSOPTS: "+RTS -N1 -s"
-  CABAL_CONFIG: ${CI_PROJECT_DIR}/.cabal/config
-
 build:
   stage: build
   except:
     - tags
-  image:
-    name: frankhjung/haskell:9.0.2
-    entrypoint: [""]
+  image: frankhjung/haskell:9.0.2
+  variables:
+    RTSOPTS: "+RTS -N1 -s"
+    STACK_ROOT: ${CI_PROJECT_DIR}/.stack
   script:
-    - make cleanall
-    - mkdir .cabal/ public/
-    - cabal user-config init
-    - make setup all
-    - mv -f -t public/
-        ./dist-newstyle/build/x86_64-linux/ghc*/QuotesCSV*/doc/html/QuotesCSV/*
+    - make clean check build test doc
+    - mv $(stack path --local-doc-root)/QuotesCSV*/ public/
+    - make exec
+
   artifacts:
     paths:
-      - public/
+      - public
   cache:
-    key: ${CI_COMMIT_REF_NAME}
+    key: ${CI_COMMIT_REF_SLUG}
     paths:
-      - dist/
-      - dist-newstyle/
+      - .stack/
+      - .stack-work/
 
 pages:
   stage: deploy
@@ -37,7 +32,7 @@ pages:
     - if: '$CI_COMMIT_BRANCH == "master"'
   image: alpine:latest
   script:
-    - echo Publish documentation ...
+    - echo Publishing documentation ...
   dependencies:
     - build
   artifacts:

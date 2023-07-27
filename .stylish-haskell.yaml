@@ -101,8 +101,8 @@ steps:
       # Default: inherit
       empty_list_align: inherit
 
-      # List padding determines indentation of import list on lines after import.
-      # This option affects 'long_list_align'.
+      # List padding determines indentation of import list on lines after
+      # import. This option affects 'long_list_align'.
       #
       # - <integer>: constant value
       #
