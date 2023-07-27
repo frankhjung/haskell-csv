@@ -17,13 +17,27 @@ The project can uses [Cabal](#cabal) and/or [Stack](#stack) to build.
 
 ### Cabal
 
-This project uses Cabal, The Cabal commands are wrapped into [make](./cabal.mk):
+Build using [Cabal](https://www.haskell.org/cabal/) with:
 
 ```bash
 make -f cabal.mk [target]
 ```
 
-As [cabal.mk](cabal.mk) is linked to [Makefile](Makefile) we can just call:
+If [cabal.mk](cabal.mk) is linked to [Makefile](Makefile) we can just call:
+
+```bash
+make [target]
+```
+
+### Stack
+
+Build using [Stack](https://docs.haskellstack.org/en/stable/) with:
+
+```bash
+make -f stack.mk [target]
+```
+
+If [stack.mk](stack.mk) is linked to [Makefile](Makefile) we can just call:
 
 ```bash
 make [target]
