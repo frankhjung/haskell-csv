@@ -5,8 +5,6 @@
 SUBS	:= $(wildcard */)
 SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
-ARGS	?= '-'
-
 default: check build test
 
 all:	check build test doc exec
@@ -32,7 +30,7 @@ doc:
 	@cabal haddock
 
 exec:
-	@cat "files/asx.csv" | cabal run main -- $(ARGS) +RTS -s
+	@cat "files/asx.csv" | cabal run main -- - +RTS -s
 
 setup:
 	@cabal update --only-dependencies

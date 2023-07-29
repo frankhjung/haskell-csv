@@ -1,0 +1,68 @@
+cabal-version:      1.12
+
+name:               csv
+version:            0.8.0
+description:        Example project to read from a CSV file using Attoparsec.
+homepage:           https://github.com/frankhjung/haskell-csv#readme
+bug-reports:        https://github.com/frankhjung/haskell-csv/issues
+author:             Frank H Jung
+maintainer:         frankhjung@linux.com
+copyright:          Copyright © 2017-2023 Frank H Jung
+license:            GPL-3
+license-file:       LICENSE
+build-type:         Simple
+extra-source-files: README.md
+
+source-repository   head
+  type:             git
+  location:         git@github.com:frankhjung/haskell-csv.git
+
+library
+  exposed-modules:  Lib
+  other-modules:    Paths_csv
+  hs-source-dirs:   src
+  ghc-options:      -Wall -Wcompat -Widentities -Wincomplete-record-updates
+                    -Wincomplete-uni-patterns -Wmissing-export-lists
+                    -Wmissing-home-modules -Wpartial-fields
+                    -Wredundant-constraints
+  default-language: Haskell2010
+  build-depends:    attoparsec
+                  , base >= 4 && < 5
+                  , text
+                  , time
+
+executable          main
+  main-is:          Main.hs
+  other-modules:    Lib
+  hs-source-dirs:   app
+                  , src
+  ghc-options:      -Wall -Wcompat -Widentities -Wincomplete-record-updates
+                    -Wincomplete-uni-patterns -Wmissing-export-lists
+                    -Wmissing-home-modules -Wpartial-fields
+                    -Wredundant-constraints -threaded -rtsopts
+                    -with-rtsopts=-N
+  default-language: Haskell2010
+  build-depends:    attoparsec
+                  , base
+                  , fmt
+                  , text
+                  , time
+
+test-suite          test
+  main-is:          Spec.hs
+  other-modules:    Lib
+  hs-source-dirs:   test
+                  , src
+  ghc-options:      -Wall -Wcompat -Widentities -Wincomplete-record-updates
+                    -Wincomplete-uni-patterns -Wmissing-export-lists
+                    -Wmissing-home-modules -Wpartial-fields
+                    -Wredundant-constraints -threaded -rtsopts
+                    -with-rtsopts=-N
+  type:             exitcode-stdio-1.0
+  default-language: Haskell2010
+  build-depends:    attoparsec
+                  , base
+                  , hspec
+                  , text
+                  , time
+

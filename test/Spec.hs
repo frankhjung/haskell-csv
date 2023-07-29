@@ -6,7 +6,7 @@ import           Data.Text  (Text)
 import           Data.Time  (LocalTime (..), TimeOfDay (..), fromGregorian)
 import           Test.Hspec (describe, hspec, it, shouldBe)
 
-import           QuotesCSV  (Quote (..), quoteTextParser)
+import           Lib        (Quote (..), quoteTextParser)
 
 -- | [Unit testing](https://hspec.github.io/) Text input string.
 testString :: Text

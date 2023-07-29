@@ -4,7 +4,7 @@ module Main(main) where
 
 import qualified Data.Text.IO (getContents, getLine)
 import           Fmt          (commaizeF, fixedF, fmtLn)
-import           QuotesCSV    (Quote (..), quoteListParser)
+import           Lib          (Quote (..), quoteListParser)
 
 --
 -- Demostrate parsing a CSV file.

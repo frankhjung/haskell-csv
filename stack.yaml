@@ -1,5 +1,5 @@
 ---
-resolver: lts-19.27
+resolver: lts-20.26
 arch: x86_64
 flags: {}
 packages: ["."]
@@ -7,6 +7,6 @@ allow-newer: true
 extra-deps:
   - attoparsec-0.14.4
   - fmt-0.6.3.0
-  - hspec-2.8.5
+  - hspec-2.9.7
   - text-1.2.5.0
-  - time-1.9.3
+  - time-1.11.1.1

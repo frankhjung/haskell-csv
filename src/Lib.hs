@@ -1,5 +1,5 @@
 {-|
-  Module      : QuotesCSV
+  Module      : Lib
   Description : Parse a CSV file containing stock quotes.
   Copyright   : © Frank Jung, 2018-2023
   License     : GPL-3
@@ -12,7 +12,7 @@
 
 -}
 
-module QuotesCSV  (
+module Lib  (
               -- * Types
               Quote (..)
               -- * Parser Functions
@@ -33,9 +33,7 @@ import           Data.Text                        (Text, unpack)
 import           Data.Time                        (LocalTime (..),
                                                    TimeOfDay (..),
                                                    defaultTimeLocale,
-                                                   fromGregorian,
-                                                   iso8601DateFormat,
-                                                   parseTimeM)
+                                                   fromGregorian, parseTimeM)
 
 -- | Stock Quotes
 data Quote = Quote  {
@@ -84,5 +82,5 @@ qdate  =
   createDate <$> takeTill (== ',')
     where
       defaultDate = LocalTime (fromGregorian 0001 01 01) (TimeOfDay 00 00 00 )
-      parseDateText t = parseTimeM True Data.Time.defaultTimeLocale (iso8601DateFormat Nothing) (unpack t)
+      parseDateText t = parseTimeM True Data.Time.defaultTimeLocale "%Y-%m-%d" (unpack t)
       createDate x = fromMaybe defaultDate $ parseDateText x

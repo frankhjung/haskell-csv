@@ -8,13 +8,13 @@ build:
   stage: build
   except:
     - tags
-  image: frankhjung/haskell:9.0.2
+  image: frankhjung/haskell:9.2.8
   variables:
     RTSOPTS: "+RTS -N1 -s"
     STACK_ROOT: ${CI_PROJECT_DIR}/.stack
   script:
     - make clean check build test doc
-    - mv $(stack path --local-doc-root)/QuotesCSV*/ public/
+    - mv $(stack path --local-doc-root)/csv*/ public/
     - make exec
 
   artifacts:

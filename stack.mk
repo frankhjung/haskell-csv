@@ -25,10 +25,8 @@ style:
 .PHONY: lint
 lint:
 	@echo lint ...
-	@cabal check
 	@hlint $(SRC)
 	@yamllint --strict $(YAML)
-
 
 .PHONY: build
 build:
@@ -51,7 +49,6 @@ exec:
 
 .PHONY: setup
 setup:
-	cabal check --verbose
 	stack path
 	stack query
 	stack ls dependencies
@@ -59,13 +56,8 @@ setup:
 .PHONY: clean
 clean:
 	@stack clean
-	@cabal clean
-	@$(RM) tags
-	@$(RM) $(wildcard *.hi **/*.hi)
-	@$(RM) $(wildcard *.o **/*.o)
-	@$(RM) $(wildcard *.prof **/*.prof)
-	@$(RM) $(wildcard *.tix **/*.tix)
 
 .PHONY: cleanall
 cleanall: clean
 	@stack purge
+	@rm -f stack.yaml.lock
