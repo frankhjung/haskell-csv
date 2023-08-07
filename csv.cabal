@@ -1,15 +1,17 @@
-cabal-version:      1.12
+cabal-version:      3.0
 
 name:               csv
 version:            0.8.0
 description:        Example project to read from a CSV file using Attoparsec.
+synopsis:           example to read from csv file
 homepage:           https://github.com/frankhjung/haskell-csv#readme
 bug-reports:        https://github.com/frankhjung/haskell-csv/issues
+license:            GPL-3.0-only
+license-file:       LICENSE
 author:             Frank H Jung
 maintainer:         frankhjung@linux.com
 copyright:          Copyright © 2017-2023 Frank H Jung
-license:            GPL-3
-license-file:       LICENSE
+category:           education
 build-type:         Simple
 extra-source-files: README.md
 
@@ -19,7 +21,6 @@ source-repository   head
 
 library
   exposed-modules:  Lib
-  other-modules:    Paths_csv
   hs-source-dirs:   src
   ghc-options:      -Wall -Wcompat -Widentities -Wincomplete-record-updates
                     -Wincomplete-uni-patterns -Wmissing-export-lists

@@ -25,7 +25,8 @@ style:
 .PHONY: lint
 lint:
 	@echo lint ...
-	@hlint $(SRC)
+	@cabal check
+	@hlint --cross --color --show $(SRC)
 	@yamllint --strict $(YAML)
 
 .PHONY: build

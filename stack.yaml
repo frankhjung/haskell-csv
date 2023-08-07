@@ -4,9 +4,3 @@ arch: x86_64
 flags: {}
 packages: ["."]
 allow-newer: true
-extra-deps:
-  - attoparsec-0.14.4
-  - fmt-0.6.3.0
-  - hspec-2.9.7
-  - text-1.2.5.0
-  - time-1.11.1.1
