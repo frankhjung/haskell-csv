@@ -2,7 +2,7 @@
 
 module Main(main) where
 
-import qualified Data.Text.IO (getContents, getLine)
+import qualified Data.Text.IO as T (getContents, getLine)
 import           Fmt          (commaizeF, fixedF, fmtLn)
 import           Lib          (Quote (..), quoteListParser)
 
@@ -20,8 +20,8 @@ averagePrice qs = sum (map qPrice qs) / fromIntegral (length qs)
 -- Parse CSV data and print average price.
 main :: IO ()
 main = do
-  _ <- Data.Text.IO.getLine                           -- skip header line
-  csvData <- Data.Text.IO.getContents                 -- process remainder of file
+  _ <- T.getLine                           -- skip header line
+  csvData <- T.getContents                 -- process remainder of file
   let quotes = either (error . show) id (quoteListParser csvData)
   mapM_ print quotes
   fmtLn $ "Number of Quotes read: " <> commaizeF (length quotes)
