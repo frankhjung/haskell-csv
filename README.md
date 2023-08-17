@@ -88,3 +88,10 @@ Both make files include a target to build
 [Haddock](http://hackage.haskell.org/package/haddock) documentation.
 
 The documentation is publish to https://frankhjung1.gitlab.io/haskell-csv/.
+
+## Repositories
+
+This project is available from both:
+
+- https://github.com/frankhjung/haskell-csv
+- https://gitlab.com/frankhjung1/haskell-csv
