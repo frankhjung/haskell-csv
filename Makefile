@@ -4,7 +4,7 @@ SRC	:= $(shell git ls-files | grep --perl \.hs)
 YAML	:= $(shell git ls-files | grep --perl \.y?ml)
 
 .PHONY: default
-default: check build test
+default: check build test exec
 
 .PHONY: all
 all:	check build test doc exec
