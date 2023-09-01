@@ -24,7 +24,6 @@ testQuote = Quote {
 
 main :: IO ()
 main = hspec $
-
   describe "quoteTextParser" $
     it "returns an instance of Quote" $
       quoteTextParser testString `shouldBe` Right testQuote

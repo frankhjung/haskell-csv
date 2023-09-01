@@ -1,7 +1,7 @@
 cabal-version:      3.0
 
 name:               csv
-version:            0.8.0
+version:            0.9.0
 description:        Example project to read from a CSV file using Attoparsec.
 synopsis:           example to read from csv file
 homepage:           https://github.com/frankhjung/haskell-csv#readme
@@ -9,7 +9,7 @@ bug-reports:        https://github.com/frankhjung/haskell-csv/issues
 license:            GPL-3.0-only
 license-file:       LICENSE
 author:             Frank H Jung
-maintainer:         frankhjung@linux.com
+maintainer:         frankhjung at linux dot com
 copyright:          Copyright © 2017-2023 Frank H Jung
 category:           education
 build-type:         Simple

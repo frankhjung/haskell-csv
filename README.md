@@ -48,10 +48,10 @@ make [target]
 Run against example data using:
 
 ```bash
-@cat "files/asx.csv" | stack exec -- main -
+stack exec -- main - +RTS -s < data/quotes.csv
 ```
 
-Or simply:
+Or more simply:
 
 ```bash
 make exec
@@ -87,11 +87,11 @@ Average price: 42.94
 Both make files include a target to build
 [Haddock](http://hackage.haskell.org/package/haddock) documentation.
 
-The documentation is publish to https://frankhjung1.gitlab.io/haskell-csv/.
+The documentation is publish to [GitLab pages](https://frankhjung1.gitlab.io/haskell-csv/).
 
 ## Repositories
 
 This project is available from both:
 
-- https://github.com/frankhjung/haskell-csv
-- https://gitlab.com/frankhjung1/haskell-csv
+- [GitHub](https://github.com/frankhjung/haskell-csv)
+- [GitLab](https://gitlab.com/frankhjung1/haskell-csv)

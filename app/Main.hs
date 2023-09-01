@@ -18,6 +18,12 @@ averagePrice qs = sum (map qPrice qs) / fromIntegral (length qs)
 
 -- | Demostrate parsing a CSV file.
 -- Parse CSV data and print average price.
+-- Invoke at command line with:
+--
+-- @
+-- stack exec -- main < data/quotes.csv
+-- cat data/quotes.csv | stack exec -- main - +RTS -s
+-- @
 main :: IO ()
 main = do
   _ <- T.getLine                           -- skip header line

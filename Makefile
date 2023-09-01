@@ -46,7 +46,7 @@ doc:
 
 .PHONY: exec
 exec:
-	@cat "files/asx.csv" | stack exec -- main -
+	@stack exec -- main - +RTS -s < data/quotes.csv
 
 .PHONY: setup
 setup:
