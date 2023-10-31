@@ -1,40 +1,55 @@
 #!/usr/bin/env make
 
-.PHONY: build check tags style lint test exec doc setup clean cleanall
+.DEFAULT_GOAL := default
 
-SUBS	:= $(wildcard */)
-SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
+SRCS	:= $(shell git ls-files | grep --perl \.hs)
+YAML	:= $(shell git ls-files | grep --perl \.y?ml)
 
-default: check build test
+.PHONY: default
+default: format check build test exec
 
-all:	check build test doc exec
+.PHONY: all
+all:	format check build test doc exec
 
-check:	tags style lint
+.PHONY: format
+format:
+	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRCS)
+	@cabal-fmt --inline csv.cabal
 
-tags:
+.PHONY: check
+check:	tags lint
+
+.PHONY: tags
+tags: $(SRCS)
 	@hasktags --ctags --extendedctag $(SRCS)
 
-style:
-	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRCS)
-
+.PHONY: lint
 lint:
-	@hlint $(SRCS)
+	@cabal check
+	@hlint --cross --color --show $(SRCS)
+	@yamllint --strict $(YAML)
 
+.PHONY: build
 build:
 	@cabal build
 
+.PHONY: test
 test:
 	@cabal test
 
+.PHONY: doc
 doc:
 	@cabal haddock
 
+.PHONY: exec
 exec:
 	@cat "files/asx.csv" | cabal run main -- - +RTS -s
 
+.PHONY: setup
 setup:
 	@cabal update --only-dependencies
 
+.PHONY: clean
 clean:
 	@cabal clean
 

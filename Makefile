@@ -1,47 +1,45 @@
 #!/usr/bin/env make
 
-SRC	:= $(shell git ls-files | grep --perl \.hs)
+.DEFAULT_GOAL := default
+
+SRCS	:= $(shell git ls-files | grep --perl \.hs)
 YAML	:= $(shell git ls-files | grep --perl \.y?ml)
+TARGET	:= csv
 
 .PHONY: default
-default: check build test exec
+default: format check build test exec
 
 .PHONY: all
-all:	check build test doc exec
+all:	format check build test doc exec
+
+.PHONY: format
+format:
+	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRCS)
+	@cabal-fmt --inplace $(TARGET).cabal
 
 .PHONY: check
-check:	tags style lint
+check:	tags lint
 
 .PHONY: tags
-tags: $(SRC)
-	@echo tags ...
-	@hasktags --ctags --extendedctag $(SRC)
-
-.PHONY: style
-style:
-	@echo style ...
-	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRC)
+tags:
+	@hasktags --ctags --extendedctag $(SRCS)
 
 .PHONY: lint
 lint:
-	@echo lint ...
 	@cabal check
-	@hlint --cross --color --show $(SRC)
+	@hlint --cross --color --show $(SRCS)
 	@yamllint --strict $(YAML)
 
 .PHONY: build
 build:
-	@echo build ...
 	@stack build --pedantic --fast
 
 .PHONY: test
 test:
-	@echo test ...
 	@stack test --fast
 
 .PHONY: doc
 doc:
-	@echo doc ...
 	@stack haddock
 
 .PHONY: exec
